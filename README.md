@@ -1,1 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>No puedes salir</title>
+<style>
+body {
+    margin: 0;
+    background: black;
+    color: red;
+    font-family: monospace;
+    overflow: hidden;
+}
+#pantalla {
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    text-align: center;
+}
+button {
+    background: black;
+    color: red;
+    border: 1px solid red;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+}
+button:hover {
+    background: red;
+    color: black;
+}
+.glitch {
+    animation: glitch 0.5s infinite;
+}
+@keyframes glitch {
+    0% { transform: translate(0); }
+    25% { transform: translate(-3px, 3px); }
+    50% { transform: translate(3px, -3px); }
+    75% { transform: translate(-3px, -3px); }
+    100% { transform: translate(0); }
+}
+</style>
+</head>
+<body>
 
+<div id="pantalla"></div>
+
+<script>
+let nombre = prompt("Antes de empezar... dime tu nombre");
+
+const pantalla = document.getElementById("pantalla");
+
+function escena1() {
+    pantalla.innerHTML = `
+        <h1 class="glitch">Hola ${nombre}...</h1>
+        <p>No deberías estar aquí</p>
+        <button onclick="escena2()">Ignorar</button>
+        <button onclick="escenaSalir()">Salir</button>
+    `;
+}
+
+function escena2() {
+    pantalla.innerHTML = `
+        <h1>Sabía que ibas a ignorar...</h1>
+        <p>Siempre lo hacen</p>
+        <button onclick="escena3()">Seguir</button>
+    `;
+}
+
+function escena3() {
+    pantalla.innerHTML = `
+        <h1 class="glitch">No estás solo</h1>
+        <p>Mueve el mouse si tienes miedo</p>
+    `;
+
+    let movido = false;
+    document.onmousemove = () => {
+        if (!movido) {
+            movido = true;
+            escena4();
+        }
+    };
+}
+
+function escena4() {
+    pantalla.innerHTML = `
+        <h1>Lo sabía...</h1>
+        <p>Te asustas fácil, ${nombre}</p>
+        <button onclick="escena5()">Negarlo</button>
+        <button onclick="escena6()">Aceptar</button>
+    `;
+}
+
+function escena5() {
+    pantalla.innerHTML = `
+        <h1 class="glitch">Mentiroso</h1>
+        <p>Te estoy viendo ahora mismo</p>
+        <button onclick="escenaFinal()">...</button>
+    `;
+}
+
+function escena6() {
+    pantalla.innerHTML = `
+        <h1>Al menos eres honesto</h1>
+        <p>Eso no te salvará</p>
+        <button onclick="escenaFinal()">Continuar</button>
+    `;
+}
+
+function escenaFinal() {
+    pantalla.innerHTML = `
+        <h1 class="glitch">No puedes salir, ${nombre}</h1>
+        <p>Esta pestaña ya es mía</p>
+    `;
+
+    setInterval(() => {
+        document.body.style.background = "white";
+        setTimeout(() => document.body.style.background = "black", 100);
+    }, 500);
+
+    setInterval(() => {
+        document.title = `${nombre}... sigo aquí`;
+    }, 1000);
+}
+
+function escenaSalir() {
+    pantalla.innerHTML = `
+        <h1>¿Salir?</h1>
+        <p>No es tan fácil</p>
+        <button onclick="escena1()">Volver</button>
+    `;
+}
+
+escena1();
+</script>
+
+</body>
+</html>
